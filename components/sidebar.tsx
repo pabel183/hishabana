@@ -1,9 +1,116 @@
 "use client";
 
-export const Sidebar=()=>{
-    return(
-        <aside className="lg:w-64 w-0">
-            Sidebar
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
+import Link from "next/link";
+
+import { AiOutlineDashboard } from "react-icons/ai";
+import { BiSolidCategory } from "react-icons/bi";
+import { MdAssistant } from "react-icons/md";
+import { PiListBulletsBold } from "react-icons/pi";
+import { FaPlusCircle } from "react-icons/fa";
+import { BsFillHexagonFill } from "react-icons/bs";
+import { FaAddressBook } from "react-icons/fa";
+import { PiUserListBold } from "react-icons/pi";
+import { TbBoxPadding } from "react-icons/tb";
+import { IoPersonCircleSharp } from "react-icons/io5";
+import { FaChevronRight } from "react-icons/fa";
+
+export const Sidebar = () => {
+    const [isActive,setIsActive]=useState('');
+    const pathname= usePathname();
+
+    useEffect(()=>{
+        if(typeof pathname === "string"){
+            setIsActive(pathname);
+        }
+    },[pathname])
+
+    const routes = [
+        {
+            label: "Dashboard",
+            icon: AiOutlineDashboard,
+            path: "/",
+            active: "/"===isActive,
+        },
+        {
+            label: "Category",
+            icon: BiSolidCategory,
+            path: "/category",
+            active: "/category"===isActive,
+            
+        },
+        {
+            label: "Add Service",
+            icon: MdAssistant,
+            path: "/add-service",
+            active: "/add-service"===pathname,
+        },
+        {
+            label: "Service List",
+            icon: PiListBulletsBold,
+            path: "/service-list",
+            active: "/service-list"===pathname,
+        },
+        {
+            label: "Create Invoice",
+            icon: FaPlusCircle,
+            path: "/create-invoice",
+            active: "/create-invoice"===pathname,
+        },
+        {
+            label: "Invoice List",
+            icon: BsFillHexagonFill,
+            path: "/invoice-list",
+            active: "/invoice-list"===pathname,
+        },
+        {
+            label: "Add Customer",
+            icon: FaAddressBook,
+            path: "/add-customer",
+            active: "/add-customer"===pathname,
+        },
+        {
+            label: "Customer List",
+            icon: PiUserListBold,
+            path: "/customer-list",
+            active: "/customer-list"===pathname,
+        },
+        {
+            label: "Sales Report",
+            icon: TbBoxPadding,
+            path: "/sales-report",
+            active: "/sales-report"===pathname,
+        },
+        {
+            label: "Registration",
+            icon: IoPersonCircleSharp,
+            path: "/registration",
+            active: "/registration"===pathname,
+        }
+    ]
+
+    return (
+        <aside className="lg:w-64 hidden lg:flex flex-col bg-neutral-500 border-neutral-600 border-r py-4">
+            {
+                routes.map((route) => (
+                    <Link key={route.label} href={route.path}>
+                        <div className={cn(`w-full flex items-center group px-4 py-2 hover:bg-neutral-600 text-neutral-200 hover:text-neutral-50 justify-between`,
+                            route.active && "bg-neutral-600"
+                        )}>
+                            <div className="h-full flex items-center justify-between gap-2">
+                                <route.icon className="size-4 h-full items-center text-neutral-200 group-hover:text-neutral-50" />
+                                <p className="text-base font-normal">{route.label}</p>
+                            </div>
+                            <FaChevronRight className={cn(`size-3 hidden group-hover:block`,
+                                route.active && "block"
+                             )}/>
+                        </div>
+                    </Link>
+                ))
+            }
         </aside>
     )
 }
