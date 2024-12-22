@@ -8,7 +8,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({
     children
 }) => {
     return (
-        <div className="relative h-full w-full flex">
+        <div className="w-full flex relative bg-slate-600">
             {/** Globally sidebar setup */}
             <Sidebar />
             {children}
